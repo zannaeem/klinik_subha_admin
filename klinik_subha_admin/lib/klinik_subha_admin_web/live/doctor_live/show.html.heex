@@ -1,0 +1,29 @@
+<.header>
+  Doctor {@doctor.id}
+  <:subtitle>This is a doctor record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/doctors/#{@doctor}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit doctor</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name">{@doctor.name}</:item>
+  <:item title="Specialization">{@doctor.specialization}</:item>
+  <:item title="Email">{@doctor.email}</:item>
+  <:item title="Phone">{@doctor.phone}</:item>
+</.list>
+
+<.back navigate={~p"/doctors"}>Back to doctors</.back>
+
+<.modal :if={@live_action == :edit} id="doctor-modal" show on_cancel={JS.patch(~p"/doctors/#{@doctor}")}>
+  <.live_component
+    module={KlinikSubhaAdminWeb.DoctorLive.FormComponent}
+    id={@doctor.id}
+    title={@page_title}
+    action={@live_action}
+    doctor={@doctor}
+    patch={~p"/doctors/#{@doctor}"}
+  />
+</.modal>
